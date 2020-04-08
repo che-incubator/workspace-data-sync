@@ -1,2 +1,2 @@
 # run backup.sh as cron task every 2 minutes
-*/2 * * * * /bin/backup.sh
+*/10 * * * * /bin/backup.sh
