@@ -6,4 +6,4 @@
 # SPDX-License-Identifier: EPL-2.0
 
 # run backup.sh as cron task every 2 minutes
-*/10 * * * * /bin/backup.sh
+*/10 * * * * /workspace-syncker/scripts/backup.sh

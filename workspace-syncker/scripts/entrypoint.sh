@@ -15,7 +15,7 @@ if ! whoami &> /dev/null; then
   echo "${USER_NAME:-user}:x:${USER_ID}:0:${USER_NAME:-user} user:${HOME}:/bin/sh" >> /etc/passwd
 fi
 
-supercronic -split-logs /tmp/crontabs/backup-cron-job 1>/tmp/stdout.log 
+supercronic  /workspace-syncker/cron/backup-cron-job 
 
 /usr/sbin/sshd -p 2222
 tail -f /dev/null
