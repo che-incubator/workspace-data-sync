@@ -19,8 +19,7 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
     SUPERCRONIC=supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=5ddf8ea26b56d4a7ff6faecdd8966610d5cb9d85
 
-
-COPY workspace-syncker workspace-syncker
+COPY syncker syncker
 
 # Add user that will be able to start machine-exec-binary but nothing more
 # the result will be propagated then into scratch image
@@ -34,9 +33,9 @@ RUN addgroup --gid "$GID" "$USER" \
        --no-create-home \
        --uid "$UID" \
        "$USER" \
-      && mkdir  /etc/ssh /var/run/sshd /.ssh && \
+      && mkdir  /etc/ssh  /var/run/sshd /.ssh && \
       # Change permissions to let any arbitrary user
-      for f in  "/etc/passwd" "/etc/ssh"  "/.ssh" "/var/run/sshd" "/workspace-syncker"; do \
+      for f in  "/etc/passwd" "/etc/ssh"  "/.ssh" "/var/run/sshd" "/scripts"; do \
         echo "Changing permissions on ${f}" && chgrp -R 0 ${f} && \
         chmod -R g+rwX ${f}; \
       done \
@@ -57,9 +56,11 @@ RUN addgroup --gid "$GID" "$USER" \
       && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
       && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
       # change permissions 
-      && chmod +x /workspace-syncker/scripts/* \
-      && chmod 0644 /workspace-syncker/cron/backup-cron-job \
-      && chmod 0550 /workspace-syncker/ssh /workspace-syncker/ssh/rsync \
+      && chmod +x /scripts/* \
+      && chmod 0644 /syncker/cron/backup-cron-job \
+      && chmod 0550 /syncker/ssh /syncker/ssh/rsync \
       && sed -i s/root:!/"root:*"/g /etc/shadow
+
+      
  
-ENTRYPOINT [ "/workspace-syncker/scripts/entrypoint.sh" ]
+ENTRYPOINT [ "/syncker/scripts/entrypoint.sh" ]
