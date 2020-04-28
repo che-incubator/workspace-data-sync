@@ -17,7 +17,7 @@ RUN apk update \
  && rm -rf /var/cache/apk/*
 
 ADD entrypoint.sh /usr/local/bin
-COPY rsync.pub /.ssh/authorized_keys
+#COPY rsync.pub /.ssh/authorized_keys
 RUN chmod 0550 /.ssh
 
 # make sure we get fresh keys

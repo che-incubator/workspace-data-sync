@@ -11,7 +11,7 @@ USER_NAME="user"
 ##### SSH options #####
 SSH_OPTIONS=""
 # Add SSH connection options
-SSH_OPTIONS=" ${SSH_OPTIONS} -i /workspace-syncker/ssh/rsync -l ${USER_NAME} -p ${RSYNC_PORT}"
+SSH_OPTIONS=" ${SSH_OPTIONS} -i /etc/ssh/private/rsync-via-ssh -l ${USER_NAME} -p ${RSYNC_PORT}"
 # Disable password authentication since we use key-based auth
 SSH_OPTIONS=" ${SSH_OPTIONS} -o PasswordAuthentication=no"
 # Disable hosts fingerprint checking because it may fail due to
@@ -36,7 +36,7 @@ RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --links --safe-links"
 RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --owner --group --numeric-ids --perms"
 #########################
 
-ssh -i /workspace-syncker/ssh/rsync -q storage -p ${RSYNC_PORT} [[ -d /var/lib/storage/data/${CHE_WORKSPACE_ID} ]]
+ssh -i /etc/ssh/private/rsync-via-ssh -q storage -p ${RSYNC_PORT} [[ -d /var/lib/storage/data/${CHE_WORKSPACE_ID} ]]
 if [[ $? -eq 0 ]]; then
     rsync ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  storage:/var/lib/storage/data/${CHE_WORKSPACE_ID}/  ${CHE_PROJECTS_ROOT}/
 fi

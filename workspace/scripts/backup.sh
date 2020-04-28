@@ -11,7 +11,7 @@ USER_NAME="user"
 ##### SSH options #####
 SSH_OPTIONS=""
 # Add SSH connection options
-SSH_OPTIONS=" ${SSH_OPTIONS} -i /workspace-syncker/ssh/rsync -l ${USER_NAME} -p ${RSYNC_PORT}"
+SSH_OPTIONS=" ${SSH_OPTIONS} -i /etc/ssh/private/rsync-via-ssh -l ${USER_NAME} -p ${RSYNC_PORT}"
 # Disable password authentication since we use key-based auth
 SSH_OPTIONS=" ${SSH_OPTIONS} -o PasswordAuthentication=no"
 # Disable hosts fingerprint checking because it may fail due to

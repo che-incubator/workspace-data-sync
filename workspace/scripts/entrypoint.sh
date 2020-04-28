@@ -10,13 +10,11 @@
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 
-# Add current (arbitrary) user `theia` to /etc/passwd
 if ! whoami &> /dev/null; then
   echo "${USER_NAME:-user}:x:${USER_ID}:0:${USER_NAME:-user} user:${HOME}:/bin/sh" >> /etc/passwd
 fi
 
-supercronic  /workspace-syncker/cron/backup-cron-job 
+supercronic  /etc/crontabs/backup-cron-job 
 
 /usr/sbin/sshd -p 2222
 tail -f /dev/null
-
