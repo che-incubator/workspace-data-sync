@@ -31,6 +31,7 @@ type Watcher struct {
 	cmd              *exec.Cmd
 }
 
+// CmdWithProgressWatching starts cmd and returns watchers that allows to track the progress
 func CmdWithProgressWatching(name string, arg ...string) (*Watcher, error) {
 	cmd := exec.Command(name, arg...)
 
