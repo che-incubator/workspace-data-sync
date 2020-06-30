@@ -14,8 +14,12 @@ usage="$(basename "$0") -- script for compile Go source and build docker images
 
 usage:
     -t,--tag             tag name for docker images (default: latest)
-    -o,--organization    organization name for docker images (default: che-incubator)
+    -o,--organization    organization name for docker images (default: eclipse)
     -h,--help            show this help text"
+
+#default
+ORGANIZATION="eclipse"
+TAG="latest"
 
 while [[ $# -gt 0 ]]
 do
@@ -42,13 +46,5 @@ do
     esac
 done
 
-#default
-if [[ -z "$TAG" ]]
-then TAG="latest"
-fi
-if [[ -z "$ORGANIZATION" ]]
-then ORGANIZATION="che-incubator"
-fi
-
 compile;
-dockerBuild "$TAG" "${ORGANIZATION}";
+dockerBuild "${TAG}" "${ORGANIZATION}";

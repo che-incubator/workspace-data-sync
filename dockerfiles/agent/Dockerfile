@@ -9,9 +9,9 @@
 
 FROM alpine:3.11
 
-ENV USER=user
-ENV UID=12345
-ENV GID=23456
+ENV USER=user \
+    UID=12345 \
+    GID=23456
 
 #cron task not work in openshift in case https://github.com/gliderlabs/docker-alpine/issues/381
 #so will used  supercronic https://github.com/aptible/supercronic

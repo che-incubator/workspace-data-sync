@@ -50,8 +50,7 @@ func (p *Watcher) Watch() {
 		p.stop(exitCode)
 
 		if err != nil {
-			//TODO Make sure that it's right way to finish the process
-			log.Panic(err)
+			log.Fatal(err) //fatal will call os.Exit(1)
 		}
 	}()
 
@@ -64,7 +63,8 @@ func (p *Watcher) Watch() {
 				line, err := p.buf.ReadSlice('\r')
 				if err != nil {
 					fmt.Printf("Failed to read the next line. Cause: %s", err)
-					//TODO continue or break here? Should we send ERROR
+					//Let's continue restore process. Probably not critical error for process itself
+					continue
 				}
 				var upd bool
 				p.progressPercents, upd = parse(line, p.progressPercents)

@@ -1,8 +1,7 @@
 ## About Eclipse Che Workspace Data Sync
 
-This tooling provide ability to increase I/O performance for a developer workspaces.
+This tooling provides the ability to increase I/O performance for a developer workspaces.
 
-==============
 ## Workspace lifecycle:
 
 #### Workspaces Startup phase:

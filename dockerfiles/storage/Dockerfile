@@ -31,5 +31,3 @@ RUN mkdir  /var/run/sshd /.ssh && \
 
 EXPOSE 2222
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
-
- 

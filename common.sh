@@ -8,8 +8,8 @@
 # SPDX-License-Identifier: EPL-2.0
 #
 
-IMAGE_AGENT=workspace-data-sync-agent
-IMAGE_STORAGE=workspace-data-sync-storage
+IMAGE_AGENT=che-sidecar-workspace-data-sync
+IMAGE_STORAGE=che-workspace-data-sync-storage
 TAG=$1
 ORGANIZATION=$2
 
@@ -32,7 +32,7 @@ function dockerBuild() {
   fi
 
   printf "Build docker image %s/%s:%s \n" "$ORGANIZATION" "$IMAGE_STORAGE" "$TAG";
-  docker build -t $ORGANIZATION/$IMAGE_STORAGE:$TAG ./dockerfiles/storage
+  docker build -t "$ORGANIZATION/$IMAGE_STORAGE:$TAG" ./dockerfiles/storage
   if [ $? != 0 ]; then
     printf "Failed build docker image %s/%s:%s \n" "$ORGANIZATION" "$IMAGE_STORAGE" "$TAG";
     exit 0
