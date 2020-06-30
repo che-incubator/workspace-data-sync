@@ -22,7 +22,7 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
 COPY cron/backup-cron-job /etc/crontabs/backup-cron-job
 COPY scripts scripts
 
-# Add user that will be able to start machine-exec-binary but nothing more
+# Add user that will be able to start watcher binary but nothing more
 # the result will be propagated then into scratch image
 # See https://stackoverflow.com/a/55757473/12429735RUN
 RUN addgroup --gid "$GID" "$USER" \
