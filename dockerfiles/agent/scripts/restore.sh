@@ -36,8 +36,8 @@ RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --links --safe-links"
 RSYNC_OPTIONS=" ${RSYNC_OPTIONS}  --no-o --no-g --no-perms" #--owner --group --numeric-ids
 #########################
 
-ssh -i /etc/ssh/private/rsync-via-ssh -q async-storage -p ${RSYNC_PORT} [[ -d /var/lib/storage/data/${CHE_WORKSPACE_ID} ]]
+ssh -i /etc/ssh/private/rsync-via-ssh -q async-storage -p ${RSYNC_PORT} [[ -d /async-storage/${CHE_WORKSPACE_ID} ]]
 if [[ $? -eq 0 ]]; then
-    rsync ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  async-storage:/var/lib/storage/data/${CHE_WORKSPACE_ID}/  ${CHE_PROJECTS_ROOT}/
+    rsync ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  async-storage:/async-storage/${CHE_WORKSPACE_ID}/projects/  ${CHE_PROJECTS_ROOT}/
 fi
 

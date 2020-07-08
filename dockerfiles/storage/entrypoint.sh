@@ -20,6 +20,15 @@ if [ "${USER_ID}" -ne 0 ] && command -v sudo >/dev/null 2>&1 && sudo -n true > /
     sudo chown "${USER_ID}:${GROUP_ID}" /projects
 fi
 
+if [ ! -f "/etc/ssh/ssh_host_rsa_key" ]; then
+	# generate fresh rsa key
+	ssh-keygen -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
+fi
+if [ ! -f "/etc/ssh/ssh_host_dsa_key" ]; then
+	# generate fresh dsa key
+	ssh-keygen -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
+fi
+
 /usr/sbin/sshd  -p 2222 
 tail -f /dev/null
 

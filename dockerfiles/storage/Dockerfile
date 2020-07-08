@@ -11,12 +11,13 @@ FROM alpine:3.11
 
 COPY  entrypoint.sh /usr/local/bin
 
-RUN mkdir  /var/run/sshd /.ssh && \
+RUN mkdir /etc/ssh /var/run/sshd /.ssh \
+    && touch /.ssh/known_hosts \
     # Change permissions to let any arbitrary user
-    for f in  "/etc/passwd" "/.ssh" "/var/run/sshd" ; do \
-      echo "Changing permissions on ${f}" && chgrp -R 0 ${f} && \
-      chmod -R g+rwX ${f}; \
-    done \
+    && for f in  "/etc/ssh" "/etc/passwd" "/.ssh" "/var/run/sshd" ; do \
+        echo "Changing permissions on ${f}" && chgrp -R 0 ${f} && \
+        chmod -R g+rwX ${f}; \
+       done \
     && apk update \
     && apk upgrade \
     && apk add --no-cache \
@@ -24,8 +25,9 @@ RUN mkdir  /var/run/sshd /.ssh && \
             openssh \
             ca-certificates \
     && update-ca-certificates \
-    && rm -rf /var/cache/apk/* \
+    && rm -rf /var/cache/apk/* /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key \
     && chmod 0550 /.ssh \
+    && chmod 0777 /.ssh/known_hosts \
     && sed -i s/root:!/"root:*"/g /etc/shadow \
     && chmod +x /usr/local/bin/entrypoint.sh
 

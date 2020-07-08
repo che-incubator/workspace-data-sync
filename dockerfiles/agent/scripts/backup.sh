@@ -37,4 +37,4 @@ RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --links --safe-links"
 # Transition of ownership and permissions
 RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --no-o --no-g --no-perms" #--owner --group --numeric-ids
 
-rsync  ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  ${CHE_PROJECTS_ROOT}/ async-storage:/var/lib/storage/data/${CHE_WORKSPACE_ID}/
+rsync  ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  ${CHE_PROJECTS_ROOT}/ async-storage:/async-storage/${CHE_WORKSPACE_ID}/projects/
