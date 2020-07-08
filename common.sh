@@ -12,6 +12,7 @@ IMAGE_AGENT=che-sidecar-workspace-data-sync
 IMAGE_STORAGE=che-workspace-data-sync-storage
 TAG=$1
 ORGANIZATION=$2
+REPOSITORY=$3
 
 function compile() {
   echo "Compile file sync progress watcher binary from source code"
@@ -24,17 +25,17 @@ function compile() {
 }
 
 function dockerBuild() {
-  printf "Build docker image %s/%s:%s \n" "$ORGANIZATION" "$IMAGE_AGENT" "$TAG";
-  docker build -t "$ORGANIZATION/$IMAGE_AGENT:$TAG" ./dockerfiles/agent
+  printf "Build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_AGENT" "$TAG";
+  docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_AGENT:$TAG" ./dockerfiles/agent
   if [ $? != 0 ]; then
-    printf "Failed build docker image %s/%s:%s \n" "$ORGANIZATION" "$IMAGE_AGENT" "$TAG";
+    printf "Failed build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_AGENT" "$TAG";
     exit 0
   fi
 
-  printf "Build docker image %s/%s:%s \n" "$ORGANIZATION" "$IMAGE_STORAGE" "$TAG";
-  docker build -t "$ORGANIZATION/$IMAGE_STORAGE:$TAG" ./dockerfiles/storage
+  printf "Build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_STORAGE" "$TAG";
+  docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_STORAGE:$TAG" ./dockerfiles/storage
   if [ $? != 0 ]; then
-    printf "Failed build docker image %s/%s:%s \n" "$ORGANIZATION" "$IMAGE_STORAGE" "$TAG";
+    printf "Failed build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_STORAGE" "$TAG";
     exit 0
   fi
 
