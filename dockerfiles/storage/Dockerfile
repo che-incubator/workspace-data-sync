@@ -31,5 +31,6 @@ RUN mkdir /etc/ssh /var/run/sshd /.ssh \
     && sed -i s/root:!/"root:*"/g /etc/shadow \
     && chmod +x /usr/local/bin/entrypoint.sh
 
+COPY sshd_config /etc/ssh/sshd_config
 EXPOSE 2222
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
