@@ -35,9 +35,20 @@ RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --links --safe-links"
 # Transition of ownership and permissions
 RSYNC_OPTIONS=" ${RSYNC_OPTIONS}  --no-o --no-g --no-perms" #--owner --group --numeric-ids
 #########################
+#checking is directory exist
+#sometimes meet networking issues so here we will try connect several times with some delay
+#need to investigate more details
+READY=false
+for i in `seq 5`; do
+  ssh -i /etc/ssh/private/rsync-via-ssh -q async-storage -p ${RSYNC_PORT} [[ -d /async-storage/${CHE_WORKSPACE_ID} ]]
+  if [[ $? -eq 0 ]]; then
+    READY=true
+    break;
+  fi
+  sleep 5;
+done
 
-ssh -i /etc/ssh/private/rsync-via-ssh -q async-storage -p ${RSYNC_PORT} [[ -d /async-storage/${CHE_WORKSPACE_ID} ]]
-if [[ $? -eq 0 ]]; then
+if [[ $READY ]]; then
     rsync ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  async-storage:/async-storage/${CHE_WORKSPACE_ID}/projects/  ${CHE_PROJECTS_ROOT}/
 fi
 

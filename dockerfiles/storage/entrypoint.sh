@@ -10,10 +10,10 @@
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 
-# Add current (arbitrary) user `theia` to /etc/passwd
-if ! whoami &> /dev/null; then
-  echo "${USER_NAME:-user}:x:${USER_ID}:0:${USER_NAME:-user} user:${HOME}:/bin/sh" >> /etc/passwd
-fi
+# Add current (arbitrary) user `user` to /etc/passwd
+USER_NAME=user
+echo "${USER_NAME}:x:${USER_ID}:0:${USER_NAME} user:${HOME}:/bin/sh" >> /etc/passwd
+passwd -u ${USER_NAME}
 
 # Grant access to projects volume in case of non root user with sudo rights
 if [ "${USER_ID}" -ne 0 ] && command -v sudo >/dev/null 2>&1 && sudo -n true > /dev/null 2>&1; then

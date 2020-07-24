@@ -9,9 +9,10 @@
 
 USER_NAME="user"
 ##### SSH options #####
+SSH_CON_OPTIONS=" -i /etc/ssh/private/rsync-via-ssh -p ${RSYNC_PORT}"
 SSH_OPTIONS=""
 # Add SSH connection options
-SSH_OPTIONS=" ${SSH_OPTIONS} -i /etc/ssh/private/rsync-via-ssh -l ${USER_NAME} -p ${RSYNC_PORT}"
+SSH_OPTIONS=" ${SSH_CON_OPTIONS}  -l ${USER_NAME}"
 # Disable password authentication since we use key-based auth
 SSH_OPTIONS=" ${SSH_OPTIONS} -o PasswordAuthentication=no"
 # Disable hosts fingerprint checking because it may fail due to
@@ -37,4 +38,7 @@ RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --links --safe-links"
 # Transition of ownership and permissions
 RSYNC_OPTIONS=" ${RSYNC_OPTIONS} --no-o --no-g --no-perms" #--owner --group --numeric-ids
 
+#ensure workspace dir existed
+ssh ${SSH_CON_OPTIONS} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null user@async-storage mkdir -p async-storage/${CHE_WORKSPACE_ID}
+#going to backup
 rsync  ${RSYNC_OPTIONS} --rsh="ssh  ${SSH_OPTIONS}"  ${CHE_PROJECTS_ROOT}/ async-storage:/async-storage/${CHE_WORKSPACE_ID}/projects/
