@@ -9,7 +9,7 @@
 name: RELEASE
 # Triggers the workflow on push  to the release branch
 on:
-  pull_request:
+  push:
     branches: [ release ]
 jobs:
   build:
