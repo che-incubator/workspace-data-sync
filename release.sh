@@ -14,3 +14,4 @@
 dockerTag;
 dockerPushTag;
 dockerPushLatest;
+gitPushTag;
