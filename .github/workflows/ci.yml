@@ -1,31 +1,32 @@
-# This is a basic workflow to help you get started with Actions
-
+#
+# Copyright (c) 2020 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# Triggers the workflow on push only for the master branch
 on:
   push:
     branches: [ master ]
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
-
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
+    - name: "Checkout workspace-data-sync source code"
+      uses: actions/checkout@v2
+    - name: "Docker prepare"
+      run: docker image prune -a -f
+    - name: "Docker Quay.io Login"
+      run:  docker login -u "${{ secrets.QUAY_USERNAME }}" -p "${{ secrets.QUAY_PASSWORD }}" quay.io
+    - name: "Run build script"
+      run:  ./build.sh
+    - name: "Docker Push"
       run: |
-        echo Add  XXX other actions to build,
-        echo test, and deploy your project.
+       docker push quay.io/eclipse/che-workspace-data-sync-storage:latest
+       docker push quay.io/eclipse/che-sidecar-workspace-data-sync:latest
+    - name: "Docker Logout"
+      run: docker logout
