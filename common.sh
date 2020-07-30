@@ -41,3 +41,37 @@ function dockerBuild() {
 
   echo "Build images successfully completed"
 }
+
+function dockerTag() {
+  VERSION=$(head -n 1 VERSION)
+  echo "Taging images to the ${VERSION}"
+  docker tag quay.io/eclipse/che-workspace-data-sync-storage:latest quay.io/eclipse/che-workspace-data-sync-storage:"${VERSION}"
+  docker tag quay.io/eclipse/che-sidecar-workspace-data-sync:latest quay.io/eclipse/che-sidecar-workspace-data-sync:"${VERSION}"
+}
+
+function dockerPushTag() {
+  VERSION=$(head -n 1 VERSION)
+  echo "Push images version: ${VERSION}"
+  docker push quay.io/eclipse/che-workspace-data-sync-storage:"${VERSION}"
+  docker push quay.io/eclipse/che-sidecar-workspace-data-sync:"${VERSION}"
+}
+
+function dockerPushLatest() {
+  echo "Push latest images"
+  docker push quay.io/eclipse/che-workspace-data-sync-storage:latest
+  docker push quay.io/eclipse/che-sidecar-workspace-data-sync:latest
+}
+
+function dockerPushNext() {
+  echo "Push next images"
+  docker push quay.io/eclipse/che-workspace-data-sync-storage:next
+  docker push quay.io/eclipse/che-sidecar-workspace-data-sync:next
+}
+
+function gitPushTag() {
+  VERSION=$(head -n 1 VERSION)
+  echo "Create tag "${VERSION}" on GitHub"
+  git checkout release -f 
+  git tag "${VERSION}"
+  git push origin "${VERSION}"
+}

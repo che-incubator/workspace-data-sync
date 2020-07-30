@@ -7,7 +7,10 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 #
-VERSION=$(head -n 1 VERSION)
-git checkout release -f 
-git tag "${VERSION}"
-git push origin "${VERSION}"
+
+#include common scripts
+. ./common.sh
+
+dockerTag;
+dockerPushTag;
+dockerPushLatest;
