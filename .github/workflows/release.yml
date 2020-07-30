@@ -26,5 +26,4 @@ jobs:
     - name: "Run release script: push images to the quay.io and create tag on GitHub"
       run:  ./release.sh
     - name: "Docker Logout"
-      run: docker logout 
-      
+      run: docker logout
