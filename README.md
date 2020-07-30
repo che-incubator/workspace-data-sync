@@ -26,5 +26,9 @@ This tooling provides the ability to increase I/O performance for a developer wo
 ./build.sh -help
 ```
 
+## Release 
+1. Set released version in `VERSION` file
+2. Push changes to the `release` branch
+
 ### License
 Che is open sourced under the Eclipse Public License 2.0.
