@@ -7,25 +7,26 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 
-FROM alpine:3.11
+FROM registry.redhat.io/ubi8/ubi-minimal:8.3
 
+ADD content_sets_centos8.repo /etc/yum.repos.d/
 COPY  entrypoint.sh /usr/local/bin
 
 RUN mkdir /etc/ssh /var/run/sshd /.ssh \
+    && microdnf update -y \
+    && microdnf install -y \
+            rsync \
+            openssh-server \
+            ca-certificates \
+            passwd \
     && touch /.ssh/known_hosts \
+    && rm -rf /var/cache/yum /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key \
     # Change permissions to let any arbitrary user
     && for f in  "/etc/ssh" "/etc/passwd" "/.ssh" "/var/run/sshd" ; do \
         echo "Changing permissions on ${f}" && chgrp -R 0 ${f} && \
         chmod -R g+rwX ${f}; \
        done \
-    && apk update \
-    && apk upgrade \
-    && apk add --no-cache \
-            rsync \
-            openssh \
-            ca-certificates \
-    && update-ca-certificates \
-    && rm -rf /var/cache/apk/* /etc/ssh/ssh_host_rsa_key /etc/ssh/ssh_host_dsa_key \
+    && update-ca-trust \
     && chmod 0550 /.ssh \
     && chmod 0777 /.ssh/known_hosts \
     && sed -i s/root:!/"root:*"/g /etc/shadow \
