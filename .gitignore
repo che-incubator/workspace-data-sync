@@ -4,4 +4,4 @@
 .vscode/
 
 # Compiled #
-dockerfiles/agent/scripts/watcher
+dockerfiles/sidecar/scripts/watcher
