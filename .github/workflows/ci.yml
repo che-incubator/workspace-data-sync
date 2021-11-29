@@ -8,13 +8,13 @@
 #
 name: CI
 
-# Triggers the workflow on push only for the master branch
+# Triggers the workflow on push only for the main branch
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - name: "Checkout workspace-data-sync source code"
       uses: actions/checkout@v2
