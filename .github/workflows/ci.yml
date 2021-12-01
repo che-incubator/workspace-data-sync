@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2020 Red Hat, Inc.
+# Copyright (c) 2020-2021 Red Hat, Inc.
 # This program and the accompanying materials are made
 # available under the terms of the Eclipse Public License 2.0
 # which is available at https://www.eclipse.org/legal/epl-2.0/
@@ -20,8 +20,12 @@ jobs:
       uses: actions/checkout@v2
     - name: "Docker prepare"
       run: docker image prune -a -f
-    - name: "Docker Quay.io Login"
-      run:  docker login -u "${{ secrets.QUAY_USERNAME }}" -p "${{ secrets.QUAY_PASSWORD }}" quay.io
+    - name: "Docker quay.io Login"
+      uses: docker/login-action@v1
+      with:
+        registry: quay.io
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_PASSWORD }}
     - name: "Run build script"
       run:  ./build.sh
     - name: "Docker Push"
