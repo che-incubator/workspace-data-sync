@@ -30,7 +30,7 @@ jobs:
       run:  ./build.sh
     - name: "Docker Push"
       run: |
-       docker push quay.io/eclipse/che-workspace-data-sync-storage:latest
-       docker push quay.io/eclipse/che-sidecar-workspace-data-sync:latest
+       docker push quay.io/eclipse/che-workspace-data-sync-storage:next
+       docker push quay.io/eclipse/che-sidecar-workspace-data-sync:next
     - name: "Docker Logout"
       run: docker logout
