@@ -13,14 +13,14 @@
 usage="$(basename "$0") -- script for compile Go source and build docker images
 
 usage:
-    -t,--tag             tag name for docker images (default: latest)
+    -t,--tag             tag name for docker images (default: next)
     -o,--organization    organization name for docker images (default: eclipse)
     -r,--repository      docker registry (default quay.io)
     -h,--help            show this help text"
 
 #default
 ORGANIZATION="eclipse"
-TAG="latest"
+TAG="next"
 REPOSITORY="quay.io"
 
 while [[ $# -gt 0 ]]
