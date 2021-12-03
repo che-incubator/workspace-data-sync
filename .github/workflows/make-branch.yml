@@ -1,4 +1,11 @@
-
+# 
+# Copyright (c) 2020-2021 Red Hat, Inc.
+# This program and the accompanying materials are made
+# available under the terms of the Eclipse Public License 2.0
+# which is available at https://www.eclipse.org/legal/epl-2.0/
+#
+# SPDX-License-Identifier: EPL-2.0
+#
 name: Create branch
 on:
   # to be run once every 3 weeks for a 7.yy.0 release, so we can get a stable 7.yy.x branch for use by downstream consumers
@@ -16,7 +23,7 @@ on:
 jobs:
   build:
     name: Create branch
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
         with: 
