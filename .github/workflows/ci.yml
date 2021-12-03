@@ -27,10 +27,16 @@ jobs:
         username: ${{ secrets.QUAY_USERNAME }}
         password: ${{ secrets.QUAY_PASSWORD }}
     - name: "Run build script"
-      run:  ./build.sh
+      run:  ./build.sh --tag next
     - name: "Docker Push"
       run: |
+       SHORT_SHA1=$(git rev-parse --short HEAD)
+       docker tag quay.io/eclipse/che-workspace-data-sync-storage:next quay.io/eclipse/che-workspace-data-sync-storage:${SHORT_SHA1}
+       docker tag quay.io/eclipse/che-sidecar-workspace-data-sync:next quay.io/eclipse/che-sidecar-workspace-data-sync:${SHORT_SHA1}
+       docker push quay.io/eclipse/che-workspace-data-sync-storage:${SHORT_SHA1}
+       docker push quay.io/eclipse/che-sidecar-workspace-data-sync:${SHORT_SHA1}
        docker push quay.io/eclipse/che-workspace-data-sync-storage:next
        docker push quay.io/eclipse/che-sidecar-workspace-data-sync:next
+
     - name: "Docker Logout"
       run: docker logout
