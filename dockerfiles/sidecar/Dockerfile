@@ -7,6 +7,13 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 
+FROM golang:1.16.0-alpine as builder
+ENV GOPATH=/tmp/go/
+
+WORKDIR /workspace-data-sync/
+COPY . .
+RUN go mod tidy && go build -o ./dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go
+
 FROM alpine:3.11
 
 ENV USER=user \
@@ -19,8 +26,9 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
     SUPERCRONIC=supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=5ddf8ea26b56d4a7ff6faecdd8966610d5cb9d85
 
-COPY cron/backup-cron-job /etc/crontabs/backup-cron-job
-COPY scripts scripts
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/cron/backup-cron-job /etc/crontabs/backup-cron-job
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/scripts /scripts
 
 # Add user that will be able to start watcher binary but nothing more
 # the result will be propagated then into scratch image

@@ -5,15 +5,24 @@
 #
 # SPDX-License-Identifier: EPL-2.0
 
+# build go content
+# https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/rhel8/go-toolset
+FROM registry.access.redhat.com/ubi8/go-toolset:1.16.7-5 as builder
+ENV GOPATH=/tmp/go/
+
+WORKDIR /workspace-data-sync/
+COPY . .
+RUN go mod tidy && go build -o ./dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go
+
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
-FROM registry.redhat.io/ubi8-minimal:8.5-204
+FROM registry.access.redhat.com/ubi8-minimal:8.5-204
 
 ENV USER=user \
     UID=12345 \
     GROUP=group \
     GID=23456
 
-ADD content_sets_centos8.repo /etc/yum.repos.d/
+
 
 #cron task not work in openshift in case https://github.com/gliderlabs/docker-alpine/issues/381
 #so will used  supercronic https://github.com/aptible/supercronic
@@ -21,8 +30,11 @@ ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.
     SUPERCRONIC=supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=5ddf8ea26b56d4a7ff6faecdd8966610d5cb9d85
 
-COPY cron/backup-cron-job /etc/crontabs/backup-cron-job
-COPY scripts /scripts
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/cron/backup-cron-job /etc/crontabs/backup-cron-job
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/scripts /scripts
+
+COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/content_sets_centos8.repo /etc/yum/repos.d/content_sets_centos8.repo 
 #
 # Add user that will be able to start watcher binary but nothing more
 # the result will be propagated then into scratch image
