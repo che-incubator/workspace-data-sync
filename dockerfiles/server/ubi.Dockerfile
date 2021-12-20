@@ -9,9 +9,8 @@
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
 FROM registry.redhat.io/ubi8-minimal:8.5-204
 
-COPY content_sets_centos8.repo /etc/yum.repos.d/
-COPY entrypoint.sh /usr/local/bin
-COPY sshd_config /etc/ssh/sshd_config
+COPY dockerfiles/server/entrypoint.sh /usr/local/bin
+COPY dockerfiles/server/sshd_config /etc/ssh/sshd_config
 
 RUN mkdir -p /etc/ssh /var/run/sshd /.ssh \
     && microdnf update -y \
