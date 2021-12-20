@@ -33,7 +33,7 @@ COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/scripts /scripts
 
 #
 # Add user that will be able to start watcher binary but nothing more
-# the result will be propagated then into alpine image
+# the result will be propagated then into runtime image
 # See https://stackoverflow.com/a/55757473/12429735RUN
 #
 RUN microdnf update -y \ 
