@@ -53,5 +53,4 @@ do
     esac
 done
 
-compile;
 dockerBuild "${TAG}" "${ORGANIZATION}";

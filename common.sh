@@ -14,16 +14,6 @@ TAG=$1
 ORGANIZATION=$2
 REPOSITORY=$3
 
-function compile() {
-  echo "Compile file sync progress watcher binary from source code"
-  $(GOOS=linux go build -o ./dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go)
-  if [ $? != 0 ]; then
-    echo "Failed to compile code"
-    exit 0
-  fi
-  echo "Compilation successfully completed"
-}
-
 function dockerBuild() {
   printf "Build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_SIDECAR" "$TAG";
   docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_SIDECAR:$TAG" ./dockerfiles/sidecar
