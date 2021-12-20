@@ -8,8 +8,8 @@
 
 FROM alpine:3.11
 
-COPY entrypoint.sh /usr/local/bin
-COPY sshd_config /etc/ssh/sshd_config
+COPY dockerfiles/server/entrypoint.sh /usr/local/bin
+COPY dockerfiles/server/sshd_config /etc/ssh/sshd_config
 
 RUN mkdir -p /etc/ssh /var/run/sshd /.ssh \
     && apk update \

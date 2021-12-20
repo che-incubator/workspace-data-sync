@@ -16,14 +16,14 @@ REPOSITORY=$3
 
 function dockerBuild() {
   printf "Build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_SIDECAR" "$TAG";
-  docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_SIDECAR:$TAG" ./dockerfiles/sidecar
+  docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_SIDECAR:$TAG" . -f dockerfiles/sidecar/Dockerfile
   if [ $? != 0 ]; then
     printf "Failed build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_SIDECAR" "$TAG";
     exit 0
   fi
 
   printf "Build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_SERVER" "$TAG";
-  docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_SERVER:$TAG" ./dockerfiles/server
+  docker build -t "$REPOSITORY/$ORGANIZATION/$IMAGE_SERVER:$TAG" . -f dockerfiles/server/Dockerfile
   if [ $? != 0 ]; then
     printf "Failed build docker image %s/%s/%s:%s \n" "$REPOSITORY" "$ORGANIZATION" "$IMAGE_SERVER" "$TAG";
     exit 0
