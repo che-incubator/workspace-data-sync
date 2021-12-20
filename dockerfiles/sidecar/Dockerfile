@@ -14,7 +14,7 @@ WORKDIR /workspace-data-sync/
 COPY . .
 RUN go mod tidy && go build -o ./dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go
 
-FROM alpine:3.11
+FROM alpine:3.13
 
 ENV USER=user \
     UID=12345 \
@@ -30,7 +30,7 @@ COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/cron/backup-cron-jo
 COPY --from=builder /workspace-data-sync/dockerfiles/sidecar/scripts /scripts
 
 # Add user that will be able to start watcher binary but nothing more
-# the result will be propagated then into scratch image
+# the result will be propagated then into runtime image
 # See https://stackoverflow.com/a/55757473/12429735RUN
 RUN addgroup --gid "$GID" "$USER" \
        && adduser \
