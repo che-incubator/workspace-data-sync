@@ -15,7 +15,7 @@ COPY . .
 RUN go mod tidy && go build -o ./dockerfiles/sidecar/scripts/watcher ./watcher/watcher.go
 
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
-FROM registry.access.redhat.com/ubi8-minimal:8.6-751.1655117800
+FROM registry.access.redhat.com/ubi8-minimal:8.6-854
 
 ENV USER=user \
     UID=12345 \
