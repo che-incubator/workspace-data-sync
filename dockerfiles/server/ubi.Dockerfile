@@ -7,7 +7,7 @@
 # 
 
 # https://access.redhat.com/containers/?tab=tags#/registry.access.redhat.com/ubi8-minimal
-FROM registry.redhat.io/ubi8-minimal:8.6-941
+FROM registry.redhat.io/ubi8-minimal:8.6-994
 
 COPY dockerfiles/server/entrypoint.sh /usr/local/bin
 COPY dockerfiles/server/sshd_config /etc/ssh/sshd_config
