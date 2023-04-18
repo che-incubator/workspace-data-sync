@@ -1,4 +1,4 @@
-## About Eclipse Che Workspace Data Sync
+## About Eclipse Che® Workspace Data Sync
 
 This tooling provides the ability to increase I/O performance for a developer workspaces.
 
@@ -31,4 +31,8 @@ This tooling provides the ability to increase I/O performance for a developer wo
 2. Push changes to the `release` branch
 
 ### License
-Che is open sourced under the Eclipse Public License 2.0.
+Eclipse Che® is open sourced under the Eclipse Public License 2.0.
+
+### Trademark
+
+"Che" is a trademark of the Eclipse Foundation.
